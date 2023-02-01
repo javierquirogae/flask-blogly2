@@ -1,6 +1,6 @@
 """Seed file to make sample data for users db."""
 
-from models import User, db
+from models import User, Post, db
 
 
 # Create all tables
@@ -9,6 +9,7 @@ db.create_all()
 
 # If table isn't empty, empty it
 User.query.delete()
+Post.query.delete()
 
 # Add pets
 Agent = User(
@@ -30,4 +31,24 @@ db.session.add(Joseph)
 db.session.add(Will)
 
 # Commit--otherwise, this never gets saved!
+db.session.commit()
+
+first_post = Post(
+    title = 'Message to Neo',
+    content = 'Hear that Mr. Anderson? That is the sound of inevitablility. Goodbye, Mr. Anderson',
+    user_id = 1)
+
+second_post = Post(
+    title = 'Another message to Neo',
+    content = "Tell Me, Mr. Anderson... What Good Is A Phone Call If You're Unable To Speak?",
+    user_id = 1)
+
+third_post = Post(
+    title = 'Message to Morpheus',
+    content = "Human Beings Are A Disease...And We Are The Cure",
+    user_id = 1)
+
+db.session.add(first_post)
+db.session.add(second_post)
+db.session.add(third_post)
 db.session.commit()
