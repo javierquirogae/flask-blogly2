@@ -21,7 +21,10 @@
                     <a href="/{{ user.id }}">by {{ user.fn() }}</a><br>
                 </div>
                 <div class="col">
-                    
+                    <form action="/{{p.id}}/delete_post" method="POST">
+                        <button type="submit" class="btn btn-danger">DELETE THIS POST</button>
+                    </form>
+                    <br> 
                 </div>
             </div>
         </div>

@@ -35,7 +35,7 @@ def show_post(user_id, post_id):
     return render_template("post.html", user=user, p=p)
 
 
-@app.route("/<int:user_id>/delete", methods=["POST"])
+@app.route("/<int:user_id>/delete_user", methods=["POST"])
 def delete_user(user_id):
     """delete user"""
     User.query.filter_by(id=user_id).delete()
@@ -104,5 +104,20 @@ def handle_new_post(user_id):
     new_post  = Post(title=title, content=content, user_id=user_id)
     db.session.add(new_post)
     db.session.commit()
+    post = Post.query.filter(Post.title==title)
+    p = post.filter(Post.user_id==user_id).first()
+    return redirect(f'/{user_id}/{p.id}')
+
+@app.route("/<int:p_id>/delete_post", methods=["POST"])
+def delete_post(p_id):
+    """delete post"""
+    print('delete post'*10)
+    post = Post.query.filter_by(id=p_id).first()
+    user_id = post.user_id
+    print(user_id)
+    Post.query.filter_by(id=p_id).delete()
+    
+    db.session.commit()
 
     return redirect(f'/{user_id}')
+    
