@@ -121,3 +121,21 @@ def delete_post(p_id):
 
     return redirect(f'/{user_id}')
     
+
+@app.route("/<int:p_id>/edit_post")
+def show_edit_post_form(p_id):
+    """show edit post form"""
+    post = Post.query.get_or_404(p_id)
+    user = post.author
+    return render_template("edit_post.html", post=post, user=user)
+
+@app.route('/<int:p_id>/edit_post', methods=["POST"])
+def edit_post(p_id):
+    post = Post.query.get_or_404(p_id)
+    post.title = request.form["title"]
+    post.content = request.form["content"]
+    user_id = post.user_id
+    db.session.add(post)
+    db.session.commit()
+  
+    return redirect(f'/{user_id}/{p_id}')
